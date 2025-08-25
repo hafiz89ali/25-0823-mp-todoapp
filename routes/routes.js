@@ -1,5 +1,5 @@
 import { Router } from "express";
-// import health controller
+import healthController from "../controllers/health.js";
 // impurt auth controller
 // import privacy controller
 // import isAuth
@@ -11,8 +11,8 @@ import { Router } from "express";
 
 const router = Router();
 
-// getHealth
-// postHealth
+router.get("/", healthController.getHealth);
+router.post("/", healthController.postHealth);
 // registerUser
 // loginUser
 // publicPath

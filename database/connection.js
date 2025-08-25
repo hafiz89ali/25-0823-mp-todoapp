@@ -1,33 +1,35 @@
 import pg from "pg";
-const { Client } = pg;
-//  import dotenv to use environment variables
 import dotenv from "dotenv";
 
 //  load environment variables from .env file
 dotenv.config();
+const { Client } = pg;
 
 const database = new Client({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    posrt: process.env.DB_DATABASE,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
 });
 
-async function testConnectionAndLog(){
-    try{
-        await database.connect();
-        const queryTime = await database.query("SELECT NOW()");
-        const databaseName = await database.query("SELECT current_database()");
-        const currentTime = queryTime.rows[0].now;
-        const currentDatabase = databaseName.rows[0].current_database;
-        console.log(`Connected to ${currentDatabase} at ${currentTime}`);
-        await createUsersTable();
-        await createTodosTable();
-    } catch (err) {
-        console.error("Error connecting to database", err);
-    }
-}
+// async function testConnectionAndLog(){
+//     try{
+//         await database.connect();
+//         const queryTime = await database.query("SELECT NOW()");
+//         const databaseName = await database.query("SELECT current_database()");
+//         const currentTime = queryTime.rows[0].now;
+//         const currentDatabase = databaseName.rows[0].current_database;
+//         console.log(`Connected to ${currentDatabase} at ${currentTime}`);
+//         await createUsersTable();
+//         await createTodosTable();
+//     } catch (err) {
+//         console.error("Error connecting to database", err);
+//     }
+// }
 
-testConnectionAndLog();
+// testConnectionAndLog(); *** Pindah ke /scr/database/testConnection.js
+
+await database.connect();
 
 export default database;
