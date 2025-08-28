@@ -1,7 +1,7 @@
 import { Router } from "express";
 import healthController from "../controllers/health.js";
-// impurt auth controller
-// import privacy controller
+import authController from "../controllers/auth.js";
+import privacyController from "../controllers/privacy.js";
 // import isAuth
 // import listTodos
 // import createTodos
@@ -13,9 +13,9 @@ const router = Router();
 
 router.get("/", healthController.getHealth);
 router.post("/", healthController.postHealth);
-// registerUser
-// loginUser
-// publicPath
+router.post("/register", authController.registerUser);
+router.post("/login", authController.loginUser);
+router.get("/public", privacyController.publicPath);
 // privatePath
 
 //  NESTED ROUTES

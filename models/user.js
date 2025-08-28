@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
 async function createUsersTable() {
   try {
     await database.query(createNewUserSQL);
-    console.log("Users table created");
+    console.log("Users table created.");
   } catch (error) {
     return console.log("Error creating users table.", error);
   }
