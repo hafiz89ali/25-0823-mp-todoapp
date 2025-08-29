@@ -14,9 +14,9 @@ async function listTodos(req, res) {
       message: "Todo listed successfully.",
       data: todos,
     };
-    return res(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
-    return res(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }
 

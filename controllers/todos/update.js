@@ -1,4 +1,3 @@
-import { use } from "react";
 import database from "../../database/connection.js";
 
 const getTodoQuery = `
@@ -9,9 +8,10 @@ const updateQuery = `
 UPDATE todos
 SET name = $1, is_completed = $2
 WHERE id = $3 AND created_by = $4
+RETURNING *
 `;
 
-async function updateTodo() {
+async function updateTodo(req, res) {
   try {
     // update field from body
     const name = req.body.name;
@@ -29,23 +29,23 @@ async function updateTodo() {
 
     // update todo
     const values = [
-      name || defaultTodo.name,
-      isCompleted || defaultTodo.is_completed,
+      name ?? defaultTodo.name,
+      isCompleted ?? defaultTodo.is_completed,
       todoId,
       userId,
     ];
     const dbRes = await database.query(updateQuery, values);
 
     if (dbRes.rowCount === 0) {
-      return res(404).json({ error: "Todo not found." });
+      return res.status(404).json({ error: "Todo not found." });
     }
 
     const data = {
       message: `Todo updated iod ${todoId} successfullyy.`,
     };
-    return res(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
-    return res(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }
 

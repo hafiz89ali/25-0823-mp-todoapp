@@ -2,12 +2,12 @@ import { Router } from "express";
 import healthController from "../controllers/health.js";
 import authController from "../controllers/auth.js";
 import privacyController from "../controllers/privacy.js";
-// import isAuth
-// import listTodos
-// import createTodos
-// import viewTodo
-// import updateTodo
-// import deleteTodo
+import isAuth from "../middlewares/isAuth.js";
+import createTodo from "../controllers/todos/create.js";
+import viewTodo from "../controllers/todos/view.js";
+import listTodos from "../controllers/todos/list.js";
+import updateTodo from "../controllers/todos/update.js";
+import deleteTodo from "../controllers/todos/delete.js";
 
 const router = Router();
 
@@ -16,23 +16,23 @@ router.post("/", healthController.postHealth);
 router.post("/register", authController.registerUser);
 router.post("/login", authController.loginUser);
 router.get("/public", privacyController.publicPath);
-// privatePath
+router.get("/private", isAuth, privacyController.privatePath);
 
 //  NESTED ROUTES
 //  todo routes
 const todoRouter = Router();
 
 // nested /todo to parent routes
-// todos/todo...
+router.use("/todo", todoRouter);
 
 // middleware to all /todos routes
-// ...isAuth...
+todoRouter.use(isAuth);
 
 // /todos router
-// listTodos
-// createTodo
-// viewTodo
-// updateTodo
-// deleteTodo
+todoRouter.get("/", listTodos);
+todoRouter.post("/", createTodo);
+todoRouter.get("/:id", viewTodo);
+todoRouter.put("/:id", updateTodo);
+todoRouter.delete("/:id", deleteTodo);
 
 export default router;
